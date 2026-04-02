@@ -19,6 +19,8 @@ Use after:
 
 Do NOT use for trivial tasks (single-file edits, quick fixes).
 
+**Output:** The full report (Phases 1-4) is always generated and shown. Phase 5 then asks what to persist - the report itself is valuable even if nothing is saved.
+
 ---
 
 ## Arguments
@@ -121,14 +123,18 @@ If no reframe happened, say so - and consider whether one was needed.
 
 ## Phase 5: Memory Decision
 
-Should any of this be persisted?
+**Present the full report (Phases 1-4) to the user first.** Then ask:
 
-- [ ] **Insight worth saving to memory** → Append to `~/.claude/library/{topic}.md`
-- [ ] **Pattern worth adding to a skill** → Edit `~/.claude/skills/{skill}/SKILL.md`
-- [ ] **Dead-end worth documenting** → Append to `~/.claude/CLAUDE.md` error rules section
-- [ ] **Nothing worth persisting** → This was context-specific
+> "What would you like to do with these insights?"
 
-If any box is checked, execute the write immediately.
+Options:
+
+- [ ] **Save insight to library** → Append to `~/.claude/library/{topic}.md`
+- [ ] **Add pattern to a skill** → Edit `~/.claude/skills/{skill}/SKILL.md`
+- [ ] **Save as error rule** → Append to `~/.claude/CLAUDE.md` error rules section
+- [ ] **Just the report** → No persistence, conversation record is enough
+
+Multiple selections allowed. If any persistence option is selected, execute immediately.
 
 ### Routing Guide
 
@@ -137,6 +143,7 @@ If any box is checked, execute the write immediately.
 | Fact, principle, observation | Library (`~/.claude/library/{topic}.md`) | Bullet point or short entry |
 | Reusable technique with steps | Skill's patterns section | When/steps/example |
 | "Never do X again" constraint | CLAUDE.md error rules | `- Always/Never {action} when {context}.` |
+| Just want the analysis | Nowhere | Report visible in conversation |
 
 ---
 
