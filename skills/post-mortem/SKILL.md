@@ -19,7 +19,12 @@ Use after:
 
 Do NOT use for trivial tasks (single-file edits, quick fixes).
 
-**Output:** The full report (Phases 1-4) is always generated and shown. Phase 5 then asks what to persist - the report itself is valuable even if nothing is saved.
+**Output:** The full report (Phases 1-4) is always generated, shown, and saved to:
+```
+~/.claude/temp/post-mortem-{YYYY-MM-DD}-{slug}.md
+```
+
+This temp file will be cleaned up eventually - the report is for short-term reference. Phase 5 distills what's worth persisting long-term (insights, patterns, error rules).
 
 ---
 
@@ -30,6 +35,11 @@ $ARGUMENTS: Optional scope - path, feature name, or "session" (default: current 
 ---
 
 ## Phase 1: Outcome Assessment
+
+**Start by creating the report file:**
+```
+~/.claude/temp/post-mortem-{YYYY-MM-DD}-{slug}.md
+```
 
 State the outcome plainly. No spin.
 

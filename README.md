@@ -72,6 +72,17 @@ Three types of knowledge, three storage locations:
    cp templates/library/*.md ~/.claude/library/
    ```
 
+4. Create temp directory for reports:
+   ```bash
+   mkdir -p ~/.claude/temp
+   ```
+
+   Optional: add cleanup cron (e.g., delete reports older than 7 days):
+   ```bash
+   # Add to crontab -e
+   0 0 * * * find ~/.claude/temp -name "post-mortem-*.md" -mtime +7 -delete
+   ```
+
 ## Usage
 
 **After significant session:**
