@@ -20,7 +20,7 @@ For significant sessions with multiple insights, use `/post-mortem` instead.
 
 1. **Identify the topic** - Which domain does this belong to?
    ```
-   testing, apis, debugging, performance, {new-topic}
+   testing, apis, debugging, skill-design, performance, {new-topic}
    ```
 
 2. **Distill to one insight** - What's the core knowledge?
@@ -30,9 +30,10 @@ For significant sessions with multiple insights, use `/post-mortem` instead.
    - Is it specific enough to be actionable?
    - Is it worth remembering?
 
-4. **Append to library:**
+4. **Append to both files:**
    ```
-   ~/.claude/library/{topic}.md
+   ~/.claude/library/INDEX.md      ← add one-liner under topic heading
+   ~/.claude/library/{topic}.md    ← add full entry if context needed
    ```
 
 5. **Confirm:** "Added to library: {one-line summary}"

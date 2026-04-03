@@ -160,7 +160,7 @@ If no reframe happened, say so - and consider whether one was needed.
 
 | What you learned | Where it goes | Format |
 |------------------|---------------|--------|
-| Fact, principle, observation | Library (`~/.claude/library/{topic}.md`) | Bullet point or short entry |
+| Fact, principle, observation | Library: `INDEX.md` + `{topic}.md` | One-liner in index, full entry in topic |
 | Reusable technique with steps | Skill's patterns section | When/steps/example |
 | "Never do X again" constraint | CLAUDE.md error rules | `- Always/Never {action} when {context}.` |
 | Nothing worth persisting | Nowhere | Report visible in conversation |

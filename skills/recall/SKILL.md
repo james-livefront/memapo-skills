@@ -18,23 +18,24 @@ Search the knowledge library for insights relevant to the current task.
 
 1. **Identify the task context** - What domain? What problem type?
 
-2. **List library topics:**
+2. **Scan the index:**
    ```
-   ls ~/.claude/library/
+   ~/.claude/library/INDEX.md
    ```
+   This has one-liners for all insights, grouped by topic. Fast to scan.
 
-3. **Read relevant topic files** - Select 1-3 most relevant based on task
+3. **Identify relevant insights** - Which one-liners apply to current task?
 
-4. **Extract applicable insights** - Scan for entries that apply to current context
+4. **Read full entries if needed** - Go to topic file for context/details
 
 5. **Inject as context:**
    ```
    <library>
-   From testing.md:
+   From testing:
    - setTimeout in tests causes flakiness; use waitFor or explicit conditions
    - Test rejection cases before acceptance cases for validation logic
 
-   From apis.md:
+   From apis:
    - Pagination endpoints don't guarantee ordering without explicit ORDER BY
    </library>
    ```
@@ -45,10 +46,11 @@ Search the knowledge library for insights relevant to the current task.
 
 ```
 ~/.claude/library/
-  testing.md       # Testing patterns, gotchas, techniques
+  INDEX.md         # One-liner per insight, scan this first
+  skill-design.md  # Full entries with context
+  testing.md       # Testing patterns, gotchas
   apis.md          # API integration learnings
   debugging.md     # Debugging insights
-  performance.md   # Performance observations
   {topic}.md       # Extensible by domain
 ```
 

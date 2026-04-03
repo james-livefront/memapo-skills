@@ -109,12 +109,15 @@ Three types of knowledge, three storage locations:
 
 ```
 ~/.claude/library/
-  testing.md       # Testing patterns, gotchas
+  INDEX.md         # One-liner per insight, scan this first
+  testing.md       # Full entries with context
   apis.md          # API integration learnings
   debugging.md     # Debugging insights
-  performance.md   # Performance observations
+  skill-design.md  # Skill creation patterns
   {topic}.md       # Add new topics as needed
 ```
+
+INDEX.md enables fast scanning - `/recall` reads this first, then dives into topic files for details.
 
 Extensible to slipbox/Zettelkasten patterns later (atomic notes, linking, structure notes).
 
