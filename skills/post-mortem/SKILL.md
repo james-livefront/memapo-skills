@@ -123,18 +123,24 @@ If no reframe happened, say so - and consider whether one was needed.
 
 ## Phase 5: Memory Decision
 
-**Present the full report (Phases 1-4) to the user first.** Then ask:
+**After presenting the report (Phases 1-4), propose what to persist:**
 
-> "What would you like to do with these insights?"
+> "Based on this, I'd suggest:
+> - Saving '{insight}' to library/debugging.md
+> - Adding '{pattern}' to the testing skill
+> - Recording '{constraint}' as an error rule
+>
+> Does this look right?"
 
-Options:
+### The Flow
 
-- [ ] **Save insight to library** → Append to `~/.claude/library/{topic}.md`
-- [ ] **Add pattern to a skill** → Edit `~/.claude/skills/{skill}/SKILL.md`
-- [ ] **Save as error rule** → Append to `~/.claude/CLAUDE.md` error rules section
-- [ ] **Just the report** → No persistence, conversation record is enough
-
-Multiple selections allowed. If any persistence option is selected, execute immediately.
+```
+1. Analyze insights from Phases 1-4
+2. Propose specific persistence actions (can be multiple)
+3. If user agrees → execute all
+4. If user disagrees → ask what they'd prefer
+5. If user says "just the report" → done, no persistence
+```
 
 ### Routing Guide
 
@@ -143,7 +149,13 @@ Multiple selections allowed. If any persistence option is selected, execute imme
 | Fact, principle, observation | Library (`~/.claude/library/{topic}.md`) | Bullet point or short entry |
 | Reusable technique with steps | Skill's patterns section | When/steps/example |
 | "Never do X again" constraint | CLAUDE.md error rules | `- Always/Never {action} when {context}.` |
-| Just want the analysis | Nowhere | Report visible in conversation |
+| Nothing worth persisting | Nowhere | Report visible in conversation |
+
+### Multiple Outputs
+
+A single post-mortem can produce several persistence actions:
+- 1 error rule + 2 library insights + 1 pattern → all valid
+- Propose all at once, execute all if approved
 
 ---
 
