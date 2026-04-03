@@ -133,7 +133,11 @@ If no reframe happened, say so - and consider whether one was needed.
 
 ## Phase 5: Memory Decision
 
-**After presenting the report (Phases 1-4), propose what to persist:**
+**After presenting the report (Phases 1-4), confirm the file location:**
+
+> "Report saved to `~/.claude/temp/post-mortem-{date}-{slug}.md`"
+
+**Then propose what to persist:**
 
 > "Based on this, I'd suggest:
 > - Saving '{insight}' to library/debugging.md
