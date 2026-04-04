@@ -1,46 +1,33 @@
 ---
 name: recall
-description: Use at task start or when stuck to retrieve relevant knowledge from the library - searches accumulated insights across all topics.
+description: Use when you need full context from library topic files - deep dive into insights beyond the auto-injected INDEX.md summaries.
 ---
 
 # Recall
 
-Search the knowledge library for insights relevant to the current task.
+Deep dive into knowledge library for full context on relevant insights.
 
 ## When to Use
 
-- Starting a non-trivial task
-- Stuck on a problem and want to check past learnings
-- Before implementing something you've done before
-- When the task touches a domain where you've accumulated knowledge
+Note: INDEX.md is auto-injected at session start via hook. You already have the one-liners.
+
+Use /recall when you need:
+- Full entry context (not just the one-liner)
+- Pattern details or examples from a topic file
+- To explore related insights in a topic area
 
 ## Process
 
-1. **Identify the task context** - What domain? What problem type?
+1. **Check which topic applies** - INDEX.md (already visible) shows topics
 
-2. **Scan the index:**
+2. **Read the topic file:**
    ```
-   ~/.claude/library/INDEX.md
-   ```
-   This has one-liners for all insights, grouped by topic. Fast to scan.
-
-3. **Identify relevant insights** - Which one-liners apply to current task?
-
-4. **Read full entries if needed** - Go to topic file for context/details
-
-5. **Inject as context:**
-   ```
-   <library>
-   From testing:
-   - setTimeout in tests causes flakiness; use waitFor or explicit conditions
-   - Test rejection cases before acceptance cases for validation logic
-
-   From apis:
-   - Pagination endpoints don't guarantee ordering without explicit ORDER BY
-   </library>
+   ~/.claude/library/{topic}.md
    ```
 
-6. **Proceed with task** - Use insights as guidance (not mandatory like error rules)
+3. **Extract full entries** - Get context, patterns, examples
+
+4. **Apply to current task** - Use as guidance (not mandatory like error rules)
 
 ## Library Structure
 
@@ -77,14 +64,13 @@ Or simpler, just bullets:
 - Mocking at the network layer is more stable than mocking internal functions
 ```
 
-## Relationship to Error Rules
+## Retrieval Comparison
 
-| Library insights | Error rules (CLAUDE.md) |
-|------------------|-------------------------|
-| Retrieved when relevant | Always present |
-| Guidance | Mandatory |
-| Can be ignored | Cannot be skipped |
-| Searched via /recall | Automatic injection |
+| Type | Injection | Enforcement | Depth |
+|------|-----------|-------------|-------|
+| Error rules | Automatic (CLAUDE.md) | Mandatory | Full text |
+| Insights | Automatic (INDEX.md) | Guidance | One-liners |
+| Topic details | Via /recall | Guidance | Full entries |
 
 If an insight is critical enough that it must ALWAYS be followed, it should be an error rule in CLAUDE.md, not a library entry.
 

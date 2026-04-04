@@ -11,7 +11,7 @@ Three types of knowledge, three storage locations:
 | Type | Storage | Retrieval | Enforcement |
 |------|---------|-----------|-------------|
 | Error rules | `~/.claude/CLAUDE.md` | Automatic (always present) | Mandatory |
-| Insights | `~/.claude/library/*.md` | Via `/recall` skill | Guidance |
+| Insights | `~/.claude/library/*.md` | Automatic (INDEX.md injected) | Guidance |
 | Patterns | Embedded in skills | When skill invoked | Guidance |
 
 ## Skills
@@ -47,11 +47,15 @@ Three types of knowledge, three storage locations:
                             │
           ┌─────────────────┼─────────────────┐
           ▼                 ▼                 ▼
-      /recall          Invoke skill      Automatic
+      Automatic        Invoke skill      Automatic
           │                 │                 │
           ▼                 ▼                 ▼
-   Search library     Patterns in       Error rules
-   return relevant    skill appear      always present
+   INDEX.md injected   Patterns in       Error rules
+   at session start    skill appear      always present
+          │
+          ▼
+   /recall for deep
+   dives into topics
 ```
 
 ## Installation
@@ -77,6 +81,22 @@ Three types of knowledge, three storage locations:
    mkdir -p ~/.claude/temp
    ```
 
+5. Install SessionStart hook for automatic insight injection:
+   ```bash
+   cp install/inject-library-index.sh ~/.claude/hooks/
+   ```
+
+   Add to `~/.claude/settings.json`:
+   ```json
+   {
+     "hooks": {
+       "SessionStart": [
+         "~/.claude/hooks/inject-library-index.sh"
+       ]
+     }
+   }
+   ```
+
    Optional: add cleanup cron (e.g., delete reports older than 7 days):
    ```bash
    # Add to crontab -e
@@ -100,10 +120,11 @@ Three types of knowledge, three storage locations:
 /error-rule
 ```
 
-**At task start (retrieve knowledge):**
+**Deep dive into topic (full context):**
 ```
 /recall
 ```
+Note: INDEX.md is auto-injected at session start. Use `/recall` when you need full entries from topic files.
 
 ## Library Structure
 
