@@ -6,13 +6,17 @@ Inspired by [MemAPO](https://arxiv.org/abs/2501.xxxxx) and the [Epoch AI evaluat
 
 ## Core Concept
 
-Three types of knowledge, three storage locations:
+Three types of knowledge, two scopes:
 
-| Type | Storage | Retrieval | Enforcement |
-|------|---------|-----------|-------------|
-| Error rules | `~/.claude/CLAUDE.md` | Automatic (always present) | Mandatory |
-| Insights | `~/.claude/library/*.md` | Via `/recall` skill | Guidance |
-| Patterns | Embedded in skills | When skill invoked | Guidance |
+| Type | Global | Local (project) | Enforcement |
+|------|--------|-----------------|-------------|
+| Error rules | `~/.claude/CLAUDE.md` | `./CLAUDE.md` | Mandatory |
+| Insights | `~/.claude/library/` | `./.claude/library/` | Guidance |
+| Patterns | Embedded in skills | — | Guidance |
+
+**Global** = applies everywhere. **Local** = this project only.
+
+Both global and local INDEX.md files are auto-injected at session start.
 
 ## Skills
 
@@ -47,41 +51,55 @@ Three types of knowledge, three storage locations:
                             │
           ┌─────────────────┼─────────────────┐
           ▼                 ▼                 ▼
-      /recall          Invoke skill      Automatic
+      Automatic        Invoke skill      Automatic
           │                 │                 │
           ▼                 ▼                 ▼
-   Search library     Patterns in       Error rules
-   return relevant    skill appear      always present
+   INDEX.md injected   Patterns in       Error rules
+   at session start    skill appear      always present
+          │
+          ▼
+   /recall for deep
+   dives into topics
 ```
 
 ## Installation
 
-1. Copy skills to your Claude Code skills directory:
+### As Plugin (Recommended)
+
+```bash
+claude plugin add github:jamesfishwick/memapo-skills
+```
+
+This automatically:
+- Installs all skills (`/post-mortem`, `/recall`, `/learn`, `/error-rule`)
+- Configures SessionStart hook for INDEX.md injection
+- Creates `~/.claude/library/` with starter topics on first run
+- Creates `~/.claude/temp/` for post-mortem reports
+
+Then add the error rules section to your CLAUDE.md:
+```bash
+cat ~/.claude/plugins/cache/*/memapo-skills/*/install/claude-md-section.md >> ~/.claude/CLAUDE.md
+```
+
+### Manual Installation
+
+If you prefer not to use plugins:
+
+1. Clone the repo and copy skills:
    ```bash
-   cp -r skills/* ~/.claude/skills/
+   git clone https://github.com/jamesfishwick/memapo-skills
+   cp -r memapo-skills/skills/* ~/.claude/skills/
    ```
 
-2. Add error rules section to your CLAUDE.md:
-   ```bash
-   cat install/claude-md-section.md >> ~/.claude/CLAUDE.md
-   ```
+2. Set up library and hooks manually (see `install/` directory)
 
-3. Create library directory with starter topics:
-   ```bash
-   mkdir -p ~/.claude/library
-   cp templates/library/*.md ~/.claude/library/
-   ```
+### Optional: Report Cleanup
 
-4. Create temp directory for reports:
-   ```bash
-   mkdir -p ~/.claude/temp
-   ```
-
-   Optional: add cleanup cron (e.g., delete reports older than 7 days):
-   ```bash
-   # Add to crontab -e
-   0 0 * * * find ~/.claude/temp -name "post-mortem-*.md" -mtime +7 -delete
-   ```
+Add cron job to delete old reports:
+```bash
+# Add to crontab -e
+0 0 * * * find ~/.claude/temp -name "post-mortem-*.md" -mtime +7 -delete
+```
 
 ## Usage
 
@@ -100,24 +118,33 @@ Three types of knowledge, three storage locations:
 /error-rule
 ```
 
-**At task start (retrieve knowledge):**
+**Deep dive into topic (full context):**
 ```
 /recall
 ```
+Note: INDEX.md is auto-injected at session start. Use `/recall` when you need full entries from topic files.
 
 ## Library Structure
 
+**Global library** (all projects):
 ```
 ~/.claude/library/
-  INDEX.md         # One-liner per insight, scan this first
-  testing.md       # Full entries with context
-  apis.md          # API integration learnings
-  debugging.md     # Debugging insights
-  skill-design.md  # Skill creation patterns
-  {topic}.md       # Add new topics as needed
+  INDEX.md         # One-liner per insight
+  testing.md       # Topic files with full entries
+  apis.md
+  debugging.md
+  {topic}.md
 ```
 
-INDEX.md enables fast scanning - `/recall` reads this first, then dives into topic files for details.
+**Local library** (project-specific):
+```
+./.claude/library/
+  INDEX.md         # Project-specific insights
+  architecture.md  # How this codebase works
+  {topic}.md
+```
+
+Both INDEX.md files are auto-injected at session start. Use `/recall` for deep dives into topic files.
 
 Extensible to slipbox/Zettelkasten patterns later (atomic notes, linking, structure notes).
 
@@ -130,6 +157,6 @@ From MemAPO: not all knowledge is equal.
 - **Patterns** are reusable techniques - "When facing X, try Y then Z"
 
 Each needs different storage and retrieval:
-- Error rules: always visible (CLAUDE.md)
-- Insights: searched when relevant (/recall)
-- Patterns: present when skill invoked
+- Error rules: always visible (CLAUDE.md) - mandatory
+- Insights: auto-injected (INDEX.md) - guidance
+- Patterns: present when skill invoked - guidance

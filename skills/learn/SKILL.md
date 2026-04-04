@@ -25,18 +25,31 @@ For significant sessions with multiple insights, use `/post-mortem` instead.
 
 2. **Distill to one insight** - What's the core knowledge?
 
-3. **Quality check:**
-   - Is this transferable beyond this specific case?
+3. **Determine scope — local or global?**
+
+   | Signal | Scope |
+   |--------|-------|
+   | About this codebase's architecture/patterns | Local |
+   | How this project's specific tools work | Local |
+   | Universal lesson (applies anywhere) | Global |
+
+   **Local:** `./.claude/library/` (project root)
+   **Global:** `~/.claude/library/`
+
+   When in doubt, propose both options to user.
+
+4. **Quality check:**
+   - Is this transferable beyond this specific case? (if global)
    - Is it specific enough to be actionable?
    - Is it worth remembering?
 
-4. **Append to both files:**
+5. **Append to both files in chosen library:**
    ```
-   ~/.claude/library/INDEX.md      ← add one-liner under topic heading
-   ~/.claude/library/{topic}.md    ← add full entry if context needed
+   {library}/INDEX.md      ← add one-liner under topic heading
+   {library}/{topic}.md    ← add full entry if context needed
    ```
 
-5. **Confirm:** "Added to library: {one-line summary}"
+6. **Confirm:** "Added to {local|global} library: {one-line summary}"
 
 ## Format
 

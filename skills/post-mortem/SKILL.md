@@ -165,6 +165,20 @@ If no reframe happened, say so - and consider whether one was needed.
 | "Never do X again" constraint | CLAUDE.md error rules | `- Always/Never {action} when {context}.` |
 | Nothing worth persisting | Nowhere | Report visible in conversation |
 
+### Local vs Global Scope
+
+For insights and error rules, determine scope:
+
+| Signal | Scope | Location |
+|--------|-------|----------|
+| About this codebase specifically | Local | `./.claude/library/` or `./CLAUDE.md` |
+| Project-specific tools/patterns | Local | `./.claude/library/` or `./CLAUDE.md` |
+| Universal lesson (applies anywhere) | Global | `~/.claude/library/` or `~/.claude/CLAUDE.md` |
+
+When proposing persistence, include the scope:
+> "Saving '{insight}' to **global** library/debugging.md"
+> "Recording '{constraint}' as a **local** error rule (this project only)"
+
 ### Multiple Outputs
 
 A single post-mortem can produce several persistence actions:
