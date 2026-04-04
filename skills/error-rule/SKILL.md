@@ -25,9 +25,22 @@ For significant sessions with multiple insights, use `/post-mortem` instead.
    - Be specific about the context
    - Name the actual constraint, not the symptom
 
-3. **Check for duplicates** — Read existing rules in CLAUDE.md
+3. **Determine scope — local or global?**
 
-4. **Append to CLAUDE.md** error rules section
+   | Signal | Scope |
+   |--------|-------|
+   | Mentions "this codebase/repo/project" | Local |
+   | References project-specific tools/files/patterns | Local |
+   | Universal lesson (applies anywhere) | Global |
+
+   **Local:** `./CLAUDE.md` (project root)
+   **Global:** `~/.claude/CLAUDE.md`
+
+   When in doubt, propose both options to user.
+
+4. **Check for duplicates** — Read existing rules in target CLAUDE.md
+
+5. **Append to CLAUDE.md** error rules section
 
 ## Rule Format
 
@@ -62,6 +75,9 @@ Before saving, verify:
 
 ## The Constraint
 
-Error rules are **mandatory**. They live in CLAUDE.md and are injected into every conversation. They cannot be skipped or ignored. This is the key difference from strategies.
+Error rules are **mandatory**. They live in CLAUDE.md and are injected into every conversation. They cannot be skipped or ignored. This is the key difference from insights.
 
-Only save rules that are worth enforcing universally.
+- **Global rules** (`~/.claude/CLAUDE.md`) — enforced in all projects
+- **Local rules** (`./CLAUDE.md`) — enforced only in this project
+
+Only save rules that are worth enforcing at their chosen scope.

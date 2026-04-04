@@ -6,13 +6,17 @@ Inspired by [MemAPO](https://arxiv.org/abs/2501.xxxxx) and the [Epoch AI evaluat
 
 ## Core Concept
 
-Three types of knowledge, three storage locations:
+Three types of knowledge, two scopes:
 
-| Type | Storage | Retrieval | Enforcement |
-|------|---------|-----------|-------------|
-| Error rules | `~/.claude/CLAUDE.md` | Automatic (always present) | Mandatory |
-| Insights | `~/.claude/library/*.md` | Automatic (INDEX.md injected) | Guidance |
-| Patterns | Embedded in skills | When skill invoked | Guidance |
+| Type | Global | Local (project) | Enforcement |
+|------|--------|-----------------|-------------|
+| Error rules | `~/.claude/CLAUDE.md` | `./CLAUDE.md` | Mandatory |
+| Insights | `~/.claude/library/` | `./.claude/library/` | Guidance |
+| Patterns | Embedded in skills | — | Guidance |
+
+**Global** = applies everywhere. **Local** = this project only.
+
+Both global and local INDEX.md files are auto-injected at session start.
 
 ## Skills
 
@@ -122,17 +126,25 @@ Note: INDEX.md is auto-injected at session start. Use `/recall` when you need fu
 
 ## Library Structure
 
+**Global library** (all projects):
 ```
 ~/.claude/library/
-  INDEX.md         # One-liner per insight, scan this first
-  testing.md       # Full entries with context
-  apis.md          # API integration learnings
-  debugging.md     # Debugging insights
-  skill-design.md  # Skill creation patterns
-  {topic}.md       # Add new topics as needed
+  INDEX.md         # One-liner per insight
+  testing.md       # Topic files with full entries
+  apis.md
+  debugging.md
+  {topic}.md
 ```
 
-INDEX.md is auto-injected at session start. Use `/recall` for deep dives into topic files when you need full context.
+**Local library** (project-specific):
+```
+./.claude/library/
+  INDEX.md         # Project-specific insights
+  architecture.md  # How this codebase works
+  {topic}.md
+```
+
+Both INDEX.md files are auto-injected at session start. Use `/recall` for deep dives into topic files.
 
 Extensible to slipbox/Zettelkasten patterns later (atomic notes, linking, structure notes).
 
