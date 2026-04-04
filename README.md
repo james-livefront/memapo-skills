@@ -60,48 +60,42 @@ Three types of knowledge, three storage locations:
 
 ## Installation
 
-1. Copy skills to your Claude Code skills directory:
+### As Plugin (Recommended)
+
+```bash
+claude plugin add github:jamesfishwick/memapo-skills
+```
+
+This automatically:
+- Installs all skills (`/post-mortem`, `/recall`, `/learn`, `/error-rule`)
+- Configures SessionStart hook for INDEX.md injection
+- Creates `~/.claude/library/` with starter topics on first run
+- Creates `~/.claude/temp/` for post-mortem reports
+
+Then add the error rules section to your CLAUDE.md:
+```bash
+cat ~/.claude/plugins/cache/*/memapo-skills/*/install/claude-md-section.md >> ~/.claude/CLAUDE.md
+```
+
+### Manual Installation
+
+If you prefer not to use plugins:
+
+1. Clone the repo and copy skills:
    ```bash
-   cp -r skills/* ~/.claude/skills/
+   git clone https://github.com/jamesfishwick/memapo-skills
+   cp -r memapo-skills/skills/* ~/.claude/skills/
    ```
 
-2. Add error rules section to your CLAUDE.md:
-   ```bash
-   cat install/claude-md-section.md >> ~/.claude/CLAUDE.md
-   ```
+2. Set up library and hooks manually (see `install/` directory)
 
-3. Create library directory with starter topics:
-   ```bash
-   mkdir -p ~/.claude/library
-   cp templates/library/*.md ~/.claude/library/
-   ```
+### Optional: Report Cleanup
 
-4. Create temp directory for reports:
-   ```bash
-   mkdir -p ~/.claude/temp
-   ```
-
-5. Install SessionStart hook for automatic insight injection:
-   ```bash
-   cp install/inject-library-index.sh ~/.claude/hooks/
-   ```
-
-   Add to `~/.claude/settings.json`:
-   ```json
-   {
-     "hooks": {
-       "SessionStart": [
-         "~/.claude/hooks/inject-library-index.sh"
-       ]
-     }
-   }
-   ```
-
-   Optional: add cleanup cron (e.g., delete reports older than 7 days):
-   ```bash
-   # Add to crontab -e
-   0 0 * * * find ~/.claude/temp -name "post-mortem-*.md" -mtime +7 -delete
-   ```
+Add cron job to delete old reports:
+```bash
+# Add to crontab -e
+0 0 * * * find ~/.claude/temp -name "post-mortem-*.md" -mtime +7 -delete
+```
 
 ## Usage
 
@@ -138,7 +132,7 @@ Note: INDEX.md is auto-injected at session start. Use `/recall` when you need fu
   {topic}.md       # Add new topics as needed
 ```
 
-INDEX.md enables fast scanning - `/recall` reads this first, then dives into topic files for details.
+INDEX.md is auto-injected at session start. Use `/recall` for deep dives into topic files when you need full context.
 
 Extensible to slipbox/Zettelkasten patterns later (atomic notes, linking, structure notes).
 
@@ -151,6 +145,6 @@ From MemAPO: not all knowledge is equal.
 - **Patterns** are reusable techniques - "When facing X, try Y then Z"
 
 Each needs different storage and retrieval:
-- Error rules: always visible (CLAUDE.md)
-- Insights: searched when relevant (/recall)
-- Patterns: present when skill invoked
+- Error rules: always visible (CLAUDE.md) - mandatory
+- Insights: auto-injected (INDEX.md) - guidance
+- Patterns: present when skill invoked - guidance

@@ -1,0 +1,11 @@
+{
+  "name": "memapo-skills",
+  "description": "Memory system for Claude Code: accumulate knowledge across sessions with error rules, insights, and patterns",
+  "version": "1.0.0",
+  "author": {
+    "name": "James Fishwick"
+  },
+  "repository": "https://github.com/jamesfishwick/memapo-skills",
+  "license": "MIT",
+  "keywords": ["memory", "learning", "post-mortem", "insights", "error-rules", "knowledge-base"]
+}
